@@ -1,4 +1,5 @@
-import { Ingredients } from './Ingredients';
+import { parseHttml } from '../function/parseHtml.js';
+import { Ingredients } from './Ingredients.js';
 
 export class Recipe {
     constructor({ id, image, name, ingredients = [], time, servings, description, appliance, ustensils }) {
@@ -21,7 +22,7 @@ export class Recipe {
     }
 
     get DOM() {
-        return `
+        return parseHttml(`
             <div class='recipe recipe--card'>
                  div class='recipe__time'>${this.time}</div>
                 <img src=${this.imgSrc}></img>
@@ -36,6 +37,6 @@ export class Recipe {
                         ${this.ingredientsListDOM}
                     </ul>
             </div>
-        `;
+        `);
     }
 }

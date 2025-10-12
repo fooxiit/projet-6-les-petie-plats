@@ -1,3 +1,5 @@
+import { parseHttml } from '../function/parseHtml.js';
+
 export class Ingredients {
     constructor({ ingredient, quantity, unit = null }) {
         this.ingredient = ingredient;
@@ -11,11 +13,11 @@ export class Ingredients {
     }
 
     get recipeDOM() {
-        return `
+        return parseHttml(`
             div class= 'recipe__ingredient ingredient'>
                 <span class= 'ingredient__name'>${this.ingredient}</span>
                 span class= 'ingredient__quantity'>${this.quantityUnit}</span>
             </div>
-        `;
+        `);
     }
 }
