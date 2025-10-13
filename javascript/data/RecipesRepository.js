@@ -34,7 +34,7 @@ export class RecipesRepository {
         return { recipes: this.recipes, ingredients: this.ingredients, appliance: this.appliance, ustensils: this.ustensils };
     }
 
-    search({ query = '', ingredientsQuery = [], applianceQuery = [], ustensilsQuery = [] }) {
+    static search({ query = '', ingredientsQuery = [], applianceQuery = [], ustensilsQuery = [] }) {
         const { recipes, ingredients, appliance, ustensils } = this.fetchRecipes();
         // implement search logic here
 

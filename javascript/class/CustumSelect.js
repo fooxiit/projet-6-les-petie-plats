@@ -48,7 +48,7 @@ export class CustumSelect {
     }
 }
 
-export class options {
+export class Options {
     constructor({ value, label }) {
         this.value = value;
         this.label = label;
