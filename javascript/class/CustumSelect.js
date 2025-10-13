@@ -1,16 +1,28 @@
 import { parseHttml } from '../function/parseHtml.js';
-import { SearchBar } from './searchBar.js';
+import { SearchBar } from './SearchBar.js';
 
 export class CustumSelect {
-    constructor({ placeholder, options = [], filter = true, onSelect = () => {} }) {
+    constructor({
+        placeholder,
+        options = [],
+        filter = true,
+        onSelect = (value) => {
+            console.log(value);
+        },
+    }) {
         this.placeholder = placeholder;
         this.options = options;
         this.filter = filter;
         this._DOM = null;
         this.onSelect = onSelect;
+        this.isOpen = false;
     }
 
     open() {
+        if (this.isOpen) return;
+        this.isOpen = true;
+        this._DOM.classList.add('custom-select--open');
+        this._DOM.addEventListener('blur', this.close.bind(this), { once: true });
         const body = this._DOM.querySelector('.custom-select__body');
         const searchBar = new SearchBar({
             onSearch: (searchTerm) => {
@@ -19,13 +31,23 @@ export class CustumSelect {
         });
         body.appendChild(searchBar.DOM);
         this.options.forEach((option) => {
-            body.appendChild(option.DOM);
-            option.DOM.addEventListener('click', () => this.select(option));
+            const optionDOM = option.DOM;
+            body.appendChild(optionDOM);
+            optionDOM.addEventListener('click', (e) => this.select(e));
         });
     }
 
+    close() {
+        if (!this.isOpen) return;
+        this.isOpen = false;
+        this._DOM.classList.remove('custom-select--open');
+        const body = this._DOM.querySelector('.custom-select__body');
+        body.innerHTML = '';
+    }
+
     select(selected) {
-        this.onSelect(selected.dataset.value);
+        this.close();
+        this.onSelect(selected.target.dataset.value);
     }
 
     setOptions(options) {
@@ -33,16 +55,21 @@ export class CustumSelect {
     }
 
     filtreOptions(searchTerm) {
+        console.log(searchTerm);
         //implement filtre
     }
 
     get DOM() {
         if (!this._DOM) {
             this._DOM = parseHttml(`
-                <div class='custom-select'>
-                    <div class='custom-select__placeholder'>${this.placeholder}</div>
+                <div class='custom-select' tabindex='-1'>
+                    <div class='custom-select__placeholder'>
+                       <span> ${this.placeholder}</span>
+                        <i class="fa-solid fa-chevron-down custom-select__icon"></i>
+                    </div>
                     <div class= 'custom-select__body'></div>
                 </div>`);
+            this._DOM.querySelector('.custom-select__placeholder').addEventListener('click', () => this.open());
         }
         return this._DOM;
     }
@@ -54,6 +81,6 @@ export class Options {
         this.label = label;
     }
     get DOM() {
-        return parseHttml(`div class='custom-select__option' data-value='${this.value}'>${this.label}</div`);
+        return parseHttml(`<div class='custom-select__option' data-value='${this.value}'>${this.label}</div>`);
     }
 }
