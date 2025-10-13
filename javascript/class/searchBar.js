@@ -21,7 +21,7 @@ export class SearchBar {
     debounce(e) {
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
-            this.onSearch(e.taget.value);
+            if (e.value.length > 2) this.onSearch(e.taget.value);
         }, 150);
     }
 }
