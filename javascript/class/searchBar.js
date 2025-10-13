@@ -1,12 +1,19 @@
 import { parseHttml } from '../function/parseHtml.js';
 
 export class SearchBar {
-    constructor({ placeholder = '', onSearch = () => {}, className = '' } = {}) {
+    constructor({
+        placeholder = '',
+        onSearch = (value) => {
+            console.log(value);
+        },
+        className = '',
+    } = {}) {
         this.placeholder = placeholder;
         this._DOM = null;
         this.onSearch = onSearch;
         this.timeout = null;
         this.className = className;
+        this.abortController = new AbortController();
     }
     get DOM() {
         if (!this._DOM) {
@@ -22,9 +29,11 @@ export class SearchBar {
     }
 
     debounce(e) {
+        this.abortController.abort();
+        this.abortController = new AbortController();
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
-            if (e.value.length > 2) this.onSearch(e.taget.value);
-        }, 150);
+            if (e.target.value.length > 2) this.onSearch(e.target.value, this.abortController.signal);
+        }, 200);
     }
 }
