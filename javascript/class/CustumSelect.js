@@ -23,26 +23,12 @@ export class CustumSelect {
         this.isOpen = true;
         this._DOM.classList.add('custom-select--open');
         this._DOM.addEventListener('blur', this.close.bind(this), { once: true });
-        const body = this._DOM.querySelector('.custom-select__body');
-        const searchBar = new SearchBar({
-            onSearch: (searchTerm) => {
-                this.filtreOptions(searchTerm);
-            },
-        });
-        body.appendChild(searchBar.DOM);
-        this.options.forEach((option) => {
-            const optionDOM = option.DOM;
-            body.appendChild(optionDOM);
-            optionDOM.addEventListener('click', (e) => this.select(e));
-        });
     }
 
     close() {
         if (!this.isOpen) return;
         this.isOpen = false;
         this._DOM.classList.remove('custom-select--open');
-        const body = this._DOM.querySelector('.custom-select__body');
-        body.innerHTML = '';
     }
 
     select(selected) {
@@ -70,6 +56,21 @@ export class CustumSelect {
                     <div class= 'custom-select__body'></div>
                 </div>`);
             this._DOM.querySelector('.custom-select__placeholder').addEventListener('click', () => this.open());
+            const body = this._DOM.querySelector('.custom-select__body');
+            const searchBar = new SearchBar({
+                className: 'search-bar--select',
+                onSearch: (searchTerm) => {
+                    this.filtreOptions(searchTerm);
+                },
+            });
+            body.appendChild(searchBar.DOM);
+            const optionsContainer = parseHttml(`<div class='custom-select__options'></div>`);
+            this.options.forEach((option) => {
+                const optionDOM = option.DOM;
+                optionsContainer.appendChild(optionDOM);
+                optionDOM.addEventListener('click', (e) => this.select(e));
+            });
+            body.appendChild(optionsContainer);
         }
         return this._DOM;
     }

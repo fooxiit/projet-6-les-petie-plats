@@ -1,0 +1,51 @@
+.custom-select {
+    position: relative;
+    padding: 16px;
+    background: white;
+    border-radius: 11px;
+    width: max-content;
+    cursor: pointer;
+    user-select: none;
+}
+
+.custom-select--open {
+    border-radius: 11px 11px 0 0;
+}
+
+.custom-select__placeholder {
+    display: flex;
+    user-select: none;
+    gap: 63px;
+}
+
+.custom-select__body {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    max-height: 360px;
+    background: white;
+    border-radius: 0 0 11px 11px;
+    flex-direction: column;
+    padding: 16px;
+    gap: 13px;
+    display: flex;
+    transform: scaleY(0);
+}
+
+.custom-select__options {
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.custom-select--open .custom-select__body {
+    transform: scaleY(1);
+}
+
+.custom-select__option:hover {
+    background: var(--color-background);
+}

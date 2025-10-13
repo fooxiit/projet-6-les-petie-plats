@@ -3,10 +3,12 @@
 @import './recipe.css';
 @import './ingerdient.css';
 @import './searchBar.css';
+@import './custumSelect.css';
 :root {
     --color-primary: #ffd15b;
     --color-black: #1b1b1b;
     --color-background: #e5e5e5;
+    --color-border-light: #c6c6c6;
     --color-text-light: #7a7a7a;
 }
 
@@ -34,7 +36,7 @@ h6 {
     font-family: 'Anton', sans-serif;
 }
 main {
-    padding: 0 102px;
+    padding: 21px 102px;
     background: var(--color-background);
 }
 ul {
@@ -46,7 +48,7 @@ ul {
     display: flex;
     flex-wrap: wrap;
     gap: 48px 66px;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 h1 {
@@ -71,4 +73,15 @@ header img {
     position: absolute;
     top: 51px;
     left: 69px;
+}
+
+.select-anchor {
+    display: flex;
+    gap: 66px;
+}
+
+.extended-search {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 55px;
 }
