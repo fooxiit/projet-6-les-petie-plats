@@ -7,7 +7,7 @@ const recipesContainer = document.querySelector('#recipes-container');
 const extendedSearch = document.querySelector('#extended-search');
 const { recipes, ingredients, appliance, ustensils } = await RecipesRepository.search();
 
-const searchBar = new SearchBar({ placeholder: 'Rechercher une recette, un ingrédient, ...', onSearch: () => {} });
+const searchBar = new SearchBar({ placeholder: 'Rechercher une recette, un ingrédient, ...', onSearch: () => {}, className: 'search-bar--main' });
 searchBarAchor.appendChild(searchBar.DOM);
 
 const ingredientSelect = new CustumSelect({ placeholder: 'Ingrédients', options: ingredients.map((ing) => new Options({ value: ing, label: ing })) });

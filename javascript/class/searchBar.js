@@ -1,16 +1,17 @@
 import { parseHttml } from '../function/parseHtml.js';
 
 export class SearchBar {
-    constructor({ placeholder = '', onSearch = () => {} }) {
+    constructor({ placeholder = '', onSearch = () => {}, className = '' } = {}) {
         this.placeholder = placeholder;
         this._DOM = null;
         this.onSearch = onSearch;
         this.timeout = null;
+        this.className = className;
     }
     get DOM() {
         if (!this._DOM) {
             this._DOM = parseHttml(`
-            <div class='search-bar'>
+            <div class='search-bar ${this.className}'>
                 <input class='search-bar__input' type='text' placeholder='${this.placeholder}' />
                 <i class="fa-solid fa-magnifying-glass search-bar__icon"></i>
             </div>`);

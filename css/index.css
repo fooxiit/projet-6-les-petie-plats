@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import './recipe.css';
 @import './ingerdient.css';
-
+@import './searchBar.css';
 :root {
     --color-primary: #ffd15b;
     --color-black: #1b1b1b;
@@ -15,6 +15,10 @@
     font-family: 'Manrope', sans-serif;
     font-size: 14px;
     font-weight: 400;
+}
+
+body {
+    margin: 0;
 }
 p {
     margin: 0;
@@ -43,4 +47,28 @@ ul {
     flex-wrap: wrap;
     gap: 48px 66px;
     justify-content: center;
+}
+
+h1 {
+    color: var(--color-primary);
+    font-size: 44px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 667px;
+    background: no-repeat url('../public/banier.png');
+    background-size: cover;
+}
+
+header img {
+    position: absolute;
+    top: 51px;
+    left: 69px;
 }
