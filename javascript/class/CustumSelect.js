@@ -1,5 +1,5 @@
-import { parseHttml } from '../function/parseHtml';
-import { SearchBar } from './searchBar';
+import { parseHttml } from '../function/parseHtml.js';
+import { SearchBar } from './searchBar.js';
 
 export class CustumSelect {
     constructor({ placeholder, options = [], filter = true, onSelect = () => {} }) {
