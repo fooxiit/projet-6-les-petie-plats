@@ -1,5 +1,5 @@
 import { CustumSelect, Options } from './class/CustumSelect.js';
-import { SearchBar } from './class/searchBar.js';
+import { SearchBar } from './class/SearchBar.js';
 import { RecipesRepository } from './data/RecipesRepository.js';
 
 const searchBarAchor = document.querySelector('#search-bar-anchor');
