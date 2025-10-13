@@ -14,9 +14,9 @@ export class Ingredients {
 
     get recipeDOM() {
         return parseHttml(`
-            div class= 'recipe__ingredient ingredient'>
-                <span class= 'ingredient__name'>${this.ingredient}</span>
-                span class= 'ingredient__quantity'>${this.quantityUnit}</span>
+            <div class= 'recipe__ingredient ingredient'>
+                <span class='ingredient__name'>${this.ingredient}</span>
+                <span class='ingredient__quantity'>${this.quantityUnit}</span>
             </div>
         `);
     }

@@ -1,0 +1,11 @@
+.ingredient {
+    display: flex;
+    flex-direction: column;
+}
+
+.ingredient__name {
+    font-weight: 500;
+}
+.ingredient__quantity {
+    color: var(--color-text-light);
+}
