@@ -1,4 +1,4 @@
-import { Recipe } from './class/Recipe.js';
+import { Recipe } from '../class/recipe.js';
 
 export class RecipesRepository {
     /**
@@ -27,6 +27,7 @@ export class RecipesRepository {
             },
             { recipes: [], ingredients: new Map(), appliance: new Map(), ustensils: new Map() }
         );
+        console.log(recipes, ingredients, appliance, ustensils);
         this.recipes = recipes;
         this.ingredients = ingredients;
         this.appliance = appliance;
@@ -34,11 +35,11 @@ export class RecipesRepository {
         return { recipes: this.recipes, ingredients: this.ingredients, appliance: this.appliance, ustensils: this.ustensils };
     }
 
-    static search({ query = '', ingredientsQuery = [], applianceQuery = [], ustensilsQuery = [] }) {
-        const { recipes, ingredients, appliance, ustensils } = this.fetchRecipes();
+    static async search({ query = '', ingredientsQuery = [], applianceQuery = [], ustensilsQuery = [] } = {}) {
+        const { recipes, ingredients, appliance, ustensils } = await this.fetchRecipes();
         // implement search logic here
-
-        return { recipes: recipes, ingredients: Array.from(ingredients.keys), appliance: Array.from(appliance.keys), ustensils: Array.from(ustensils.keys) };
+        console.log(recipes, ingredients, appliance, ustensils);
+        return { recipes: recipes, ingredients: Array.from(ingredients.keys()), appliance: Array.from(appliance.keys()), ustensils: Array.from(ustensils.keys()) };
     }
 
     constructor() {

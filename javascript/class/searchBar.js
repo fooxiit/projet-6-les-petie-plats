@@ -1,3 +1,5 @@
+import { parseHttml } from '../function/parseHtml.js';
+
 export class SearchBar {
     constructor({ placeholder = '', onSearch = () => {} }) {
         this.placeholder = placeholder;

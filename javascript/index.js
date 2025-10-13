@@ -5,7 +5,7 @@ import { RecipesRepository } from './data/RecipesRepository.js';
 const searchBarAchor = document.querySelector('#search-bar-anchor');
 const recipesContainer = document.querySelector('#recipes-container');
 const extendedSearch = document.querySelector('#extended-search');
-const { recipes, ingredients, appliance, ustensils } = RecipesRepository.search();
+const { recipes, ingredients, appliance, ustensils } = await RecipesRepository.search();
 
 const searchBar = new SearchBar({ placeholder: 'Rechercher une recette, un ingrédient, ...', onSearch: () => {} });
 searchBarAchor.appendChild(searchBar.DOM);
