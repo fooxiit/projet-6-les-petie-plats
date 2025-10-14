@@ -1,4 +1,5 @@
 import { parseHttml } from '../function/parseHtml.js';
+import { Tag } from './Tag.js';
 
 export class SearchBar {
     constructor({
@@ -14,6 +15,8 @@ export class SearchBar {
         this.timeout = null;
         this.className = className;
         this.abortController = new AbortController();
+        this.query = '';
+        this.tag = new Map();
     }
     get DOM() {
         if (!this._DOM) {
@@ -33,7 +36,31 @@ export class SearchBar {
         this.abortController = new AbortController();
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
-            if (e.target.value.length > 2) this.onSearch(e.target.value, this.abortController.signal);
+            this.query = e.target.value;
+            this.search();
         }, 200);
+    }
+
+    search() {
+        this.onSearch({ query: this.query, tag: this.tag });
+    }
+
+    /**
+     *
+     * @param {Tag} tag
+     */
+    addTag(tag) {
+        if (this.tag.has(tag.type)) {
+            this.tag.get(tag.type).add(tag.id);
+        } else {
+            this.tag.set(tag.type, new Set([tag.id]));
+        }
+        this.search();
+    }
+
+    removeTag(tag) {
+        console.log(this.tag.get(tag.type));
+        this.tag.get(tag.type)?.delete(tag.id);
+        this.search();
     }
 }

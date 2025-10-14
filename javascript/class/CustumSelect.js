@@ -16,24 +16,33 @@ export class CustumSelect {
         this._DOM = null;
         this.onSelect = onSelect;
         this.isOpen = false;
+        this.abortController = new AbortController();
     }
 
     open() {
         if (this.isOpen) return;
         this.isOpen = true;
         this._DOM.classList.add('custom-select--open');
-        this._DOM.addEventListener('blur', this.close.bind(this), { once: true });
+        document.addEventListener(
+            'click',
+            (e) => {
+                if (!this._DOM.contains(e.target)) this.close();
+            },
+            { signal: this.abortController.signal }
+        );
     }
 
     close() {
         if (!this.isOpen) return;
+        this.abortController.abort();
+        this.abortController = new AbortController();
         this.isOpen = false;
         this._DOM.classList.remove('custom-select--open');
     }
 
     select(selected) {
         this.close();
-        this.onSelect(selected.target.dataset.value);
+        this.onSelect({ data: selected.data, value: selected.value });
     }
 
     setOptions(options) {
@@ -68,7 +77,7 @@ export class CustumSelect {
             this.options.forEach((option) => {
                 const optionDOM = option.DOM;
                 optionsContainer.appendChild(optionDOM);
-                optionDOM.addEventListener('click', (e) => this.select(e));
+                optionDOM.addEventListener('click', (e) => this.select(option));
             });
             body.appendChild(optionsContainer);
         }
@@ -77,9 +86,10 @@ export class CustumSelect {
 }
 
 export class Options {
-    constructor({ value, label }) {
+    constructor({ value, label, data }) {
         this.value = value;
         this.label = label;
+        this.data = data;
     }
     get DOM() {
         return parseHttml(`<div class='custom-select__option' data-value='${this.value}'>${this.label}</div>`);

@@ -4,6 +4,7 @@
 @import './ingerdient.css';
 @import './searchBar.css';
 @import './custumSelect.css';
+@import './tag.css';
 :root {
     --color-primary: #ffd15b;
     --color-black: #1b1b1b;
@@ -75,13 +76,21 @@ header img {
     left: 69px;
 }
 
-.select-anchor {
-    display: flex;
-    gap: 66px;
-}
-
 .extended-search {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 55px;
+    flex-direction: column;
+}
+
+.extended-search__select-anchor {
+    display: flex;
+    gap: 66px;
+    margin-bottom: 21px;
+}
+
+.extended-search__tag-anchor {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    margin-bottom: 43px;
 }

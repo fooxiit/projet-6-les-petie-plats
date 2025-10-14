@@ -1,0 +1,16 @@
+.tag {
+    display: flex;
+    gap: 60px;
+    padding: 17px 18px;
+    align-items: center;
+    background: var(--color-primary);
+    width: max-content;
+    border-radius: 10px;
+    user-select: none;
+}
+
+.tag__remove {
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+}
