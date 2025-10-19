@@ -17,6 +17,7 @@ export class SearchBar {
         this.abortController = new AbortController();
         this.query = '';
         this.tag = new Map();
+        this.debounceTime = 200;
     }
     get DOM() {
         if (!this._DOM) {
@@ -38,7 +39,7 @@ export class SearchBar {
         this.timeout = setTimeout(() => {
             this.query = e.target.value;
             this.search();
-        }, 200);
+        }, this.debounceTime);
     }
 
     search() {
