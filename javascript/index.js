@@ -3,6 +3,8 @@ import { SearchBar } from './class/SearchBar.js';
 import { Tag } from './class/Tag.js';
 import { tagType } from './constant.js';
 import { RecipesRepository } from './data/RecipesRepository.js';
+import { displayRecipes } from './function/displayRecipes.js';
+import { applianceToOption, ingredientToOption, ustensilToOption } from './function/toOption.js';
 
 const searchBarAchor = document.querySelector('#search-bar-anchor');
 const recipesContainer = document.querySelector('#recipes-container');
@@ -10,31 +12,12 @@ const tagAnchor = document.querySelector('#tag-anchor');
 const selectAnchor = document.querySelector('#select-anchor');
 const { recipes, ingredients, appliance, ustensils } = await RecipesRepository.search();
 
-const searchBar = new SearchBar({
-    placeholder: 'Rechercher une recette, un ingrédient, ...',
-    onSearch: (searchTerm) => {
-        console.log(searchTerm);
-    },
-    className: 'search-bar--main',
-});
-searchBarAchor.appendChild(searchBar.DOM);
-
 const ingredientSelect = new CustumSelect({
     placeholder: 'Ingrédients',
-    options: ingredients.map(
-        (ing) =>
-            new Options({
-                value: ing,
-                label: ing,
-                data: new Tag({
-                    type: tagType.ingredients,
-                    name: ing,
-                    id: ing,
-                    onRemove: (tag) => {
-                        searchBar.removeTag(tag);
-                    },
-                }),
-            })
+    options: ingredients.map((ing) =>
+        ingredientToOption(ing, (tag) => {
+            searchBar.removeTag(tag);
+        })
     ),
     onSelect: (selected) => {
         searchBar.addTag(selected.data);
@@ -45,20 +28,10 @@ selectAnchor.appendChild(ingredientSelect.DOM);
 
 const applianceSelect = new CustumSelect({
     placeholder: 'Appareils',
-    options: appliance.map(
-        (app) =>
-            new Options({
-                value: app,
-                label: app,
-                data: new Tag({
-                    type: tagType.appliance,
-                    name: app,
-                    id: app,
-                    onRemove: (tag) => {
-                        searchBar.removeTag(tag);
-                    },
-                }),
-            })
+    options: appliance.map((app) =>
+        applianceToOption(app, (tag) => {
+            searchBar.removeTag(tag);
+        })
     ),
     onSelect: (selected) => {
         searchBar.addTag(selected.data);
@@ -69,20 +42,10 @@ selectAnchor.appendChild(applianceSelect.DOM);
 
 const ustensilsSelect = new CustumSelect({
     placeholder: 'Ustensiles',
-    options: ustensils.map(
-        (ust) =>
-            new Options({
-                value: ust,
-                label: ust,
-                data: new Tag({
-                    type: tagType.ustensils,
-                    name: ust,
-                    id: ust,
-                    onRemove: (tag) => {
-                        searchBar.removeTag(tag);
-                    },
-                }),
-            })
+    options: ustensils.map((ust) =>
+        ustensilToOption(ust, (tag) => {
+            searchBar.removeTag(tag);
+        })
     ),
     onSelect: (selected) => {
         searchBar.addTag(selected.data);
@@ -91,6 +54,36 @@ const ustensilsSelect = new CustumSelect({
 });
 selectAnchor.appendChild(ustensilsSelect.DOM);
 
-for (const recipe of recipes) {
-    recipesContainer.appendChild(recipe.DOM);
-}
+const searchBar = new SearchBar({
+    placeholder: 'Rechercher une recette, un ingrédient, ...',
+    onSearch: async (searchTerm) => {
+        const { recipes, ingredients, appliance, ustensils } = await RecipesRepository.search(searchTerm);
+        ustensilsSelect.setOptions(
+            ustensils.map((ustensil) =>
+                ustensilToOption(ustensil, (tag) => {
+                    searchBar.removeTag(tag);
+                })
+            )
+        );
+        applianceSelect.setOptions(
+            appliance.map((ustensil) =>
+                applianceToOption(ustensil, (tag) => {
+                    searchBar.removeTag(tag);
+                })
+            )
+        );
+
+        ingredientSelect.setOptions(
+            ingredients.map((ingredient) =>
+                ingredientToOption(ingredient, (tag) => {
+                    searchBar.removeTag(tag);
+                })
+            )
+        );
+        displayRecipes(recipesContainer, recipes);
+    },
+    className: 'search-bar--main',
+});
+searchBarAchor.appendChild(searchBar.DOM);
+
+displayRecipes(recipesContainer, recipes);

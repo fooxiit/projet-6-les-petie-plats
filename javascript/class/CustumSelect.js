@@ -47,6 +47,13 @@ export class CustumSelect {
 
     setOptions(options) {
         this.options = options;
+        const optionsContainer = this.DOM.querySelector('.custom-select__options');
+        optionsContainer.innerHTML = '';
+        this.options.forEach((option) => {
+            const optionDOM = option.DOM;
+            optionsContainer.appendChild(optionDOM);
+            optionDOM.addEventListener('click', (e) => this.select(option));
+        });
     }
 
     filtreOptions(searchTerm) {

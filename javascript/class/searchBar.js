@@ -1,4 +1,5 @@
 import { parseHttml } from '../function/parseHtml.js';
+import { Query } from './Query.js';
 import { Tag } from './Tag.js';
 
 export class SearchBar {
@@ -16,7 +17,7 @@ export class SearchBar {
         this.className = className;
         this.abortController = new AbortController();
         this.query = '';
-        this.tag = new Map();
+        this.tags = new Map();
         this.debounceTime = 200;
     }
     get DOM() {
@@ -43,7 +44,7 @@ export class SearchBar {
     }
 
     search() {
-        this.onSearch({ query: this.query, tag: this.tag });
+        this.onSearch(new Query(this.query.toLocaleLowerCase(), this.tags));
     }
 
     /**
@@ -51,17 +52,17 @@ export class SearchBar {
      * @param {Tag} tag
      */
     addTag(tag) {
-        if (this.tag.has(tag.type)) {
-            this.tag.get(tag.type).add(tag.id);
+        if (this.tags.has(tag.type)) {
+            this.tags.get(tag.type).add(tag.id);
         } else {
-            this.tag.set(tag.type, new Set([tag.id]));
+            this.tags.set(tag.type, new Set([tag.id]));
         }
         this.search();
     }
 
     removeTag(tag) {
-        console.log(this.tag.get(tag.type));
-        this.tag.get(tag.type)?.delete(tag.id);
+        this.tags.get(tag.type)?.delete(tag.id);
+        if (this.tags.get(tag.type)?.size < 1) this.tags.delete(tag.type);
         this.search();
     }
 }
