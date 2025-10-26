@@ -1,13 +1,16 @@
 import { CustumSelect, Options } from './class/CustumSelect.js';
+import { Recipe } from './class/recipe.js';
 import { SearchBar } from './class/SearchBar.js';
 import { Tag } from './class/Tag.js';
 import { tagType } from './constant.js';
 import { RecipesRepository } from './data/RecipesRepository.js';
+import { parseHttml } from './function/parseHtml.js';
 import { displayRecipes } from './function/displayRecipes.js';
 import { applianceToOption, ingredientToOption, ustensilToOption } from './function/toOption.js';
 
 const searchBarAchor = document.querySelector('#search-bar-anchor');
 const recipesContainer = document.querySelector('#recipes-container');
+const numberContainer = document.querySelector('#number-recipes-anchor');
 const tagAnchor = document.querySelector('#tag-anchor');
 const selectAnchor = document.querySelector('#select-anchor');
 const { recipes, ingredients, appliance, ustensils } = await RecipesRepository.search();
@@ -87,3 +90,25 @@ const searchBar = new SearchBar({
 searchBarAchor.appendChild(searchBar.DOM);
 
 displayRecipes(recipesContainer, recipes);
+displayRecipes(recipes, recipesContainer, numberContainer);
+
+/**
+ *
+ * @param {Array<Recipe>} recipes
+ * @param {HTMLElement} recipesContainer
+ * @param {HTMLElement} numberContainer
+ */
+function displayRecipes(recipes, recipesContainer, numberContainer, searchTerm = '') {
+    recipesContainer.innerHTML = '';
+    if (recipes.length > 0) {
+        for (const recipe of recipes) {
+            recipesContainer.appendChild(recipe.DOM);
+        }
+    } else {
+        const notFound = parseHttml(`<span> Aucune recette ne contient « ${searchTerm} »  vous pouvez chercher «tarte aux pommes », « poisson », etc</<span>`);
+        recipesContainer.appendChild(notFound);
+    }
+    numberContainer.innerHTML = '';
+    const numberOfRecipes = parseHttml(`<span>${recipes.length} recettes</span>`);
+    numberContainer.appendChild(numberOfRecipes);
+}

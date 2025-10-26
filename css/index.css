@@ -79,13 +79,26 @@ header img {
 .extended-search {
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
+    flex-direction: row;
+    margin-bottom: 21px;
+}
+
+.extended-search__number-recipes {
+    width: max-content;
+    display: flex;
+    align-items: center;
+}
+
+.extended-search__number-recipes span {
+    font-family: 'Anton', sans-serif;
+    font-size: 21px;
+    font-weight: 400;
 }
 
 .extended-search__select-anchor {
+    width: max-content;
     display: flex;
     gap: 66px;
-    margin-bottom: 21px;
 }
 
 .extended-search__tag-anchor {

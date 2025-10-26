@@ -19,7 +19,7 @@ export class CustumSelect {
         this.abortController = new AbortController();
     }
 
-    open() {
+    open(e) {
         if (this.isOpen) return;
         this.isOpen = true;
         this._DOM.classList.add('custom-select--open');
@@ -38,6 +38,7 @@ export class CustumSelect {
         this.abortController = new AbortController();
         this.isOpen = false;
         this._DOM.classList.remove('custom-select--open');
+        console.log('close', this.isOpen);
     }
 
     select(selected) {
@@ -57,8 +58,26 @@ export class CustumSelect {
     }
 
     filtreOptions(searchTerm) {
-        console.log(searchTerm);
-        //implement filtre
+        const { query } = searchTerm;
+        const optionsContainer = this._DOM.querySelector('.custom-select__options');
+        if (query === '') {
+            this.displayOption(this.options, optionsContainer);
+            return;
+        }
+        const filtredOption = this.options.filter((option) => option.value.toLowerCase().startsWith(query.toLowerCase()));
+        this.displayOption(filtredOption, optionsContainer);
+    }
+
+    displayOption(options, optionsContainer) {
+        optionsContainer.innerHTML = '';
+        options.forEach((option) => {
+            const optionDOM = option.DOM;
+            optionsContainer.appendChild(optionDOM);
+            optionDOM.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.select(option);
+            });
+        });
     }
 
     get DOM() {
@@ -71,7 +90,7 @@ export class CustumSelect {
                     </div>
                     <div class= 'custom-select__body'></div>
                 </div>`);
-            this._DOM.querySelector('.custom-select__placeholder').addEventListener('click', () => this.open());
+            this._DOM.addEventListener('click', (e) => this.open(e));
             const body = this._DOM.querySelector('.custom-select__body');
             const searchBar = new SearchBar({
                 className: 'search-bar--select',
@@ -81,12 +100,8 @@ export class CustumSelect {
             });
             body.appendChild(searchBar.DOM);
             const optionsContainer = parseHttml(`<div class='custom-select__options'></div>`);
-            this.options.forEach((option) => {
-                const optionDOM = option.DOM;
-                optionsContainer.appendChild(optionDOM);
-                optionDOM.addEventListener('click', (e) => this.select(option));
-            });
             body.appendChild(optionsContainer);
+            this.displayOption(this.options, optionsContainer);
         }
         return this._DOM;
     }
