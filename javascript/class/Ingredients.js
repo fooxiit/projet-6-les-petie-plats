@@ -2,6 +2,7 @@ import { parseHttml } from '../function/parseHtml.js';
 
 export class Ingredients {
     constructor({ ingredient, quantity, unit = null }) {
+        this.id = ingredient;
         this.ingredient = ingredient;
         this.quantity = quantity;
         this.unit = unit;

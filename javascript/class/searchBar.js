@@ -1,3 +1,4 @@
+import { findInArray } from '../function/array.js';
 import { parseHttml } from '../function/parseHtml.js';
 import { Tag } from './Tag.js';
 
@@ -52,16 +53,19 @@ export class SearchBar {
      */
     addTag(tag) {
         if (this.tag.has(tag.type)) {
-            this.tag.get(tag.type).add(tag.id);
+            const tags = this.tag.get(tag.type);
+            if (!findInArray(tags, (tagO) => tag.id === tagO)[0]) tags.push(tag.id);
         } else {
-            this.tag.set(tag.type, new Set([tag.id]));
+            this.tag.set(tag.type, [tag.id]);
         }
         this.search();
     }
 
     removeTag(tag) {
-        console.log(this.tag.get(tag.type));
-        this.tag.get(tag.type)?.delete(tag.id);
+        const tags = this.tag.get(tag.type);
+        if (!tags) return;
+        const index = findInArray(tags, (tagO) => tag.id === tagO)[3];
+        tags.splice(index, 1);
         this.search();
     }
 }

@@ -48,6 +48,8 @@ export class CustumSelect {
 
     setOptions(options) {
         this.options = options;
+        const optionsContainer = this._DOM.querySelector('.custom-select__options');
+        this.displayOption(this.options, optionsContainer);
     }
 
     filtreOptions(searchTerm) {
