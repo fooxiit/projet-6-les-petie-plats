@@ -6,7 +6,7 @@ export class SearchBar {
     constructor({
         placeholder = '',
         onSearch = (value) => {
-            console.log(value);
+            console.info(value);
         },
         className = '',
     } = {}) {

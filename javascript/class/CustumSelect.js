@@ -7,7 +7,7 @@ export class CustumSelect {
         options = [],
         filter = true,
         onSelect = (value) => {
-            console.log(value);
+            console.info(value);
         },
     }) {
         this.placeholder = placeholder;
@@ -38,7 +38,7 @@ export class CustumSelect {
         this.abortController = new AbortController();
         this.isOpen = false;
         this._DOM.classList.remove('custom-select--open');
-        console.log('close', this.isOpen);
+        console.info('close', this.isOpen);
     }
 
     select(selected) {

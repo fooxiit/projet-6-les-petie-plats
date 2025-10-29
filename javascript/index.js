@@ -1,10 +1,6 @@
 import { CustumSelect, Options } from './class/CustumSelect.js';
-import { Recipe } from './class/recipe.js';
 import { SearchBar } from './class/SearchBar.js';
-import { Tag } from './class/Tag.js';
-import { tagType } from './constant.js';
 import { RecipesRepository } from './data/RecipesRepository.js';
-import { parseHttml } from './function/parseHtml.js';
 import { displayRecipes } from './function/displayRecipes.js';
 import { applianceToOption, ingredientToOption, ustensilToOption } from './function/toOption.js';
 

@@ -30,7 +30,6 @@ export class RecipesRepository {
             },
             { recipes: [], ingredients: new Map(), appliance: new Map(), ustensils: new Map() }
         );
-        //console.log(recipes, ingredients, appliance, ustensils);
         this.recipes = recipes;
         this.ingredients = ingredients;
         this.appliance = appliance;
@@ -41,11 +40,9 @@ export class RecipesRepository {
     static async search(query = new Query()) {
         const { recipes, ingredients, appliance, ustensils } = await this.fetchRecipes();
         const { query: queryString, tags } = query;
-        const queryDeconpose = queryString.split(/\s|,/gm).filter((word) => !stopWords.has(word));
         if (queryString.length < 3 && !checkIfHasTag(tags)) {
             return { recipes: recipes, ingredients: Array.from(ingredients.keys()), appliance: Array.from(appliance.keys()), ustensils: Array.from(ustensils.keys()) };
         }
-        // implement search logic here
         const { recipesFiltred, ingredientsFiltred, appliancesFiltred, ustensilsFiltred } = recipes.reduce(
             (acc, recipe) => {
                 if (queryMatch(recipe, queryString) || queryString.length < 3) {
@@ -104,7 +101,7 @@ export class RecipesRepository {
 function queryMatch(recipe, query) {
     const { description, name, ingredients } = recipe;
 
-    return description.toLowerCase().includes(query) || name.toLowerCase().includes(query) || ingredients.some((ingredient) => ingredient.ingredient.includes(query));
+    return description.toLowerCase().includes(query) || name.toLowerCase().includes(query) || ingredients.some((ingredient) => ingredient.ingredient.toLowerCase().includes(query));
 }
 
 function applianceMatch(tags, recipeApliance) {
