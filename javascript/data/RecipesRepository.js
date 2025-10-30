@@ -15,20 +15,16 @@ export class RecipesRepository {
                 const recipeObject = new Recipe(recipe);
                 acc.recipes.push(recipeObject);
                 recipe.ingredients.forEach((ing) => {
-                    if (!acc.ingredients.has(ing.ingredient)) acc.ingredients.set(ing.ingredient, [recipe.id]);
-                    else acc.ingredients.get(ing.ingredient).push(recipe.id);
+                    acc.ingredients.add(ing.ingredient);
                 });
-
-                if (!acc.appliance.has(recipe.appliance)) acc.appliance.set(recipe.appliance, [recipe.id]);
-                else acc.appliance.get(recipe.appliance).push(recipe.id);
+                acc.appliance.add(recipe.appliance);
 
                 recipe.ustensils.forEach((ust) => {
-                    if (!acc.ustensils.has(ust)) acc.ustensils.set(ust, [recipe.id]);
-                    else acc.ustensils.get(ust).push(recipe.id);
+                    acc.ustensils.add(ust);
                 });
                 return acc;
             },
-            { recipes: [], ingredients: new Map(), appliance: new Map(), ustensils: new Map() }
+            { recipes: [], ingredients: new Set(), appliance: new Set(), ustensils: new Set() }
         );
         this.recipes = recipes;
         this.ingredients = ingredients;
